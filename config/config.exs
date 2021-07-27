@@ -7,9 +7,6 @@
 # General application configuration
 use Mix.Config
 
-config :read_pg,
-  ecto_repos: [ReadPg.Repo]
-
 # Configures the endpoint
 config :read_pg, ReadPgWeb.Endpoint,
   url: [host: "localhost"],

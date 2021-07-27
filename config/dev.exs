@@ -1,13 +1,6 @@
 use Mix.Config
 
 # Configure your database
-config :read_pg, ReadPg.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "read_pg_dev",
-  hostname: "localhost",
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -16,7 +9,7 @@ config :read_pg, ReadPg.Repo,
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :read_pg, ReadPgWeb.Endpoint,
-  http: [port: 4000],
+  http: [port: 3009],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,

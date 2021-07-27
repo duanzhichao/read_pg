@@ -8,7 +8,6 @@ defmodule ReadPg.Application do
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
-      ReadPg.Repo,
       # Start the Telemetry supervisor
       ReadPgWeb.Telemetry,
       # Start the PubSub system

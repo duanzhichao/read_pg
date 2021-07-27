@@ -10,8 +10,10 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :read_pg, ReadPgWeb.Endpoint,
-  url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  http: [port: 3009],
+  url: [host: "127.0.0.1"],
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  server: true
 
 # Do not print debug messages in production
 config :logger, level: :info

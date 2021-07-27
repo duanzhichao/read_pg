@@ -13,6 +13,7 @@ defmodule ReadPgWeb.Router do
   scope "/drgwork_wt4", ReadPgWeb do
     pipe_through :api # Use the default browser stack
     post "/query", QueryController, :query
+    get "/connect_test", QueryController, :connect_test
   end
 
   # Enables LiveDashboard only for development

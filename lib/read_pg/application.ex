@@ -6,6 +6,7 @@ defmodule ReadPg.Application do
   use Application
 
   def start(_type, _args) do
+    ReadPg.ets_new()
     children = [
       # Start the Ecto repository
       # Start the Telemetry supervisor
@@ -21,7 +22,9 @@ defmodule ReadPg.Application do
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: ReadPg.Supervisor]
-    Supervisor.start_link(children, opts)
+    supervisor = Supervisor.start_link(children, opts)
+    ReadPg.set_time()
+    supervisor
   end
 
   # Tell Phoenix to update the endpoint configuration

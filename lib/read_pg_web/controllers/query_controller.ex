@@ -36,4 +36,8 @@ defmodule ReadPgWeb.QueryController do
     end
   end
 
+  def connect_test(conn, _params) do
+    json conn, %{data: []}
+  end
+
 end

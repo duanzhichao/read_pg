@@ -37,7 +37,11 @@ defmodule ReadPgWeb.QueryController do
   end
 
   def connect_test(conn, _params) do
-    json conn, %{data: []}
+    time = case ReadPg.ets_get(:app, :start_time) do
+        nil -> ""
+        time -> time
+      end
+    json conn, %{data: time}
   end
 
 end

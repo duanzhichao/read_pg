@@ -10,7 +10,15 @@ defmodule ReadPg.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      releases: [
+        read_pg: [
+          version: "0.0.1",
+          include_executables_for: [:unix],
+          applications: [
+            read_pg: :permanent]
+        ]
+      ]
     ]
   end
 

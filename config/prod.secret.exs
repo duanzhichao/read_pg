@@ -18,10 +18,8 @@ use Mix.Config
 #     """
 
 config :read_pg, ReadPgWeb.Endpoint,
-  http: [
-    port: String.to_integer(System.get_env("PORT") || "4000"),
-    transport_options: [socket_opts: [:inet6]]
-  ],
+  http: [port: 3009],
+  url: [host: "127.0.0.1"],
   secret_key_base: "02kWiRb2hX1WLfm4/EfLCQHOWe/w0w2QVCSXkOgXJSxtA7lOZvehTUHTmykFemqd"
 
 # ## Using releases (Elixir v1.9+)

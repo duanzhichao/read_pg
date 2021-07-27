@@ -16,6 +16,7 @@ defmodule ReadPgWeb.QueryController do
           |> Enum.join(" ")
 
         try do
+          IO.inspect sql
           {:ok, pid} = Postgrex.start_link(hostname: "127.0.0.1", username: "postgres", password: "postgres", database: database)
           data = Postgrex.query!(pid, sql, [], [timeout: 1500000000])
           GenServer.stop(pid)
@@ -26,6 +27,7 @@ defmodule ReadPgWeb.QueryController do
               Enum.map(0..length, fn index -> {Enum.at(data.columns, index), Enum.at(xs, index)} end)
               |> Map.new
             end)
+          IO.inspect result
           json conn, %{data: result}
         rescue
           _ ->

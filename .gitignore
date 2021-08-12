@@ -28,3 +28,4 @@ read_pg-*.tar
 /priv/static/
 
 mix.lock
+.elixir_ls

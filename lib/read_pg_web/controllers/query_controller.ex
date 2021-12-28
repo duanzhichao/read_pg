@@ -18,6 +18,8 @@ defmodule ReadPgWeb.QueryController do
         try do
           IO.inspect sql
           {:ok, pid} = Postgrex.start_link(hostname: "127.0.0.1", username: "postgres", password: "postgres", database: database)
+          {state, data} = Postgrex.query!(pid, sql, [], [timeout: 1500000000])
+          IO.inspect state
           data = Postgrex.query!(pid, sql, [], [timeout: 1500000000])
           GenServer.stop(pid)
 

@@ -8,6 +8,14 @@ use Mix.Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
+config :read_pg, ReadPg.Repo,
+  username: "postgres",
+  password: "postgres",
+  database: "drg_prod",
+  hostname: "localhost",
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 36
+
 config :read_pg, ReadPgWeb.Endpoint,
   http: [port: 3009],
   debug_errors: true,

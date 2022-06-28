@@ -8,13 +8,14 @@ defmodule ReadPg do
   """
   def ets_new() do
     :ets.new(:app, [:named_table, :public])
+    :ets.new(:task, [:named_table, :public])
   end
 
-  def ets_put(value) do
-    if(ets_get(:app, :start_time))do
-      ets_del(:app, :start_time)
+  def ets_put(table, key, value) do
+    if(ets_get(table, key))do
+      ets_del(table, key)
     end
-    :ets.insert(:app, {:start_time, value})
+    :ets.insert(table, {key, value})
   end
 
 
@@ -37,7 +38,7 @@ defmodule ReadPg do
     {year, month, day, hour, minute, second} = gb_time(datetime)
     time = to_string(year) <> to_string(month) <> to_string(day) <> to_string(hour) <> to_string(minute) <> to_string(second)
     IO.inspect time
-    ets_put(time)
+    ets_put(:app, :start_time, time)
   end
 
   defp gb_time(datetime) do

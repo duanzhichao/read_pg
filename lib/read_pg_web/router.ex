@@ -13,6 +13,7 @@ defmodule ReadPgWeb.Router do
   scope "/drgwork_wt4", ReadPgWeb do
     pipe_through :api # Use the default browser stack
     post "/query", QueryController, :query
+    post "/query_task", QueryController, :query_task
     get "/connect_test", QueryController, :connect_test
   end
 

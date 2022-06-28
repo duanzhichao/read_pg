@@ -1,41 +1,30 @@
 defmodule ReadPgWeb.QueryController do
   use ReadPgWeb, :controller
+  alias ReadPg.GetData
+  alias ReadPg.RepoTask
 
   def query(conn, _params) do
+    %{"sql" => sql, "database" => database} = Map.merge(%{"sql" => "", "database" => "drg_prod"}, conn.params)
+    sql = GetData.parse_sql(sql)
 
+    result = cond do
+        is_nil(sql) ->
+          %{data: [], msg: "无法解析SQL", query: sql, is_success: false}
+        database == "drg_prod" ->
+          GetData.query(sql)
+        true ->
+          GetData.query(sql, database)
+      end
+
+    json conn, result
+  end
+
+  def query_task(conn, _params) do
     %{"sql" => sql, "database" => database} = Map.merge(%{"sql" => "", "database" => "drg_prod"}, conn.params)
 
-    cond do
-      is_nil(sql) -> json conn, %{data: []}
-      sql == "" -> json conn, %{data: []}
-      database == "" -> json conn, %{data: []}
-      sql == [] -> json conn, %{data: []}
-      true ->
-        sql = Jason.decode!(sql)
-          |> Enum.map(fn x -> Regex.replace(~r/get/, x, "select") end)
-          |> Enum.map(fn x -> Regex.replace(~r/edit/, x, "update") end)
-          |> Enum.map(fn x -> Regex.replace(~r/add/, x, "create") end)
-          |> Enum.join(" ")
+    Task.start_link(fn () -> RepoTask.start(sql) end)
 
-        try do
-          {:ok, pid} = Postgrex.start_link(hostname: "127.0.0.1", username: "postgres", password: "postgres", database: database)
-
-          data = Postgrex.query!(pid, sql, [], [timeout: 1500000000])
-          GenServer.stop(pid)
-
-          result = Enum.map(data.rows, fn xs ->
-              Enum.with_index(xs)
-              |> Enum.map(fn {v, i} -> {String.to_atom(Enum.at(data.columns, i)), v} end)
-              |> Map.new
-            end)
-
-          json conn, %{data: result}
-        rescue
-          error ->
-            IO.inspect error
-            json conn, %{data: []}
-        end
-    end
+    json conn, %{is_success: true, msg: "任务创建成功"}
   end
 
   def connect_test(conn, _params) do

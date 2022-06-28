@@ -11,6 +11,7 @@ defmodule ReadPg.Application do
       # Start the Ecto repository
       # Start the Telemetry supervisor
       ReadPgWeb.Telemetry,
+      ReadPg.Repo,
       # Start the PubSub system
       {Phoenix.PubSub, name: ReadPg.PubSub},
       # Start the Endpoint (http/https)

@@ -14,6 +14,7 @@ defmodule ReadPgWeb.Router do
     pipe_through :api # Use the default browser stack
     post "/query", QueryController, :query
     post "/query_task", QueryController, :query_task
+    get "/query_task_state", QueryController, :query_task_state
     get "/connect_test", QueryController, :connect_test
   end
 

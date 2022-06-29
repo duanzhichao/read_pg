@@ -41,9 +41,15 @@ defmodule ReadPg do
     ets_put(:app, :start_time, time)
   end
 
-  defp gb_time(datetime) do
+  def gb_time(datetime) do
     {{year, month, day},{hour, minute, second}} = datetime
     {concat(year), concat(month), concat(day), concat(hour), concat(minute), concat(second)}
+  end
+
+
+  def now() do
+    Timex.now("Asia/Shanghai")
+    |> Timex.Format.DateTime.Formatters.Default.format!("{YYYY}{0M}{0D}{h24}{m}{s}")
   end
 
   defp concat(t) do

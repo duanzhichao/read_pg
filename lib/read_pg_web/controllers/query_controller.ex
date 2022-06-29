@@ -20,11 +20,19 @@ defmodule ReadPgWeb.QueryController do
   end
 
   def query_task(conn, _params) do
-    %{"sql" => sql, "database" => database} = Map.merge(%{"sql" => "", "database" => "drg_prod"}, conn.params)
+    %{"sql" => sql, "database" => _database, "task_id" => task_id} = Map.merge(%{"sql" => "", "database" => "drg_prod", "task_id" => nil}, conn.params)
+    if task_id == nil do
+      json conn, %{is_success: false, msg: "任务创建失败", task_id: task_id}
+    else
+      Task.start_link(fn () -> RepoTask.start(sql, task_id) end)
+      json conn, %{is_success: true, msg: "任务创建成功", task_id: task_id}
+    end
+  end
 
-    Task.start_link(fn () -> RepoTask.start(sql) end)
-
-    json conn, %{is_success: true, msg: "任务创建成功"}
+  def query_task_state(conn, _params) do
+    %{"task_id" => task_id} = Map.merge(%{"task_id" => nil}, conn.params)
+    result = RepoTask.task_state(task_id)
+    json conn, result
   end
 
   def connect_test(conn, _params) do

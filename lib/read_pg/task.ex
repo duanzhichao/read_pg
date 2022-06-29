@@ -21,11 +21,11 @@ defmodule ReadPg.RepoTask do
   def task_state(task_id) do
     case ReadPg.ets_get(:task, task_id) do
       nil ->
-        %{msg: "查询不到任务", finish: false}
+        %{msg: "查询不到任务", finish: false, data: []}
       :start ->
-        %{msg: "正在查询", finish: false}
+        %{msg: "正在查询", finish: false, data: []}
       _ ->
-        %{msg: "查询完成", finish: false}
+        %{msg: "查询完成", finish: true, data: []}
     end
   end
 end

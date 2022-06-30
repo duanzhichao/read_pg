@@ -19,7 +19,7 @@ defmodule ReadPgWeb.QueryController do
     json conn, result
   end
 
-  def query_task(conn, _params) do
+  def create_task(conn, _params) do
     %{"sql" => sql, "database" => _database, "task_id" => task_id} = Map.merge(%{"sql" => "", "database" => "drg_prod", "task_id" => nil}, conn.params)
     if task_id == nil do
       json conn, %{is_success: false, msg: "任务创建失败", task_id: task_id}
@@ -41,7 +41,7 @@ defmodule ReadPgWeb.QueryController do
         nil -> ""
         time -> time
       end
-    json conn, %{data: time}
+    json conn, %{is_success: true, data: time}
   end
 
 end

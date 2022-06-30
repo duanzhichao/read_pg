@@ -30,8 +30,9 @@ defmodule ReadPgWeb.QueryController do
   end
 
   def query_task_state(conn, _params) do
-    %{"task_id" => task_id} = Map.merge(%{"task_id" => nil}, conn.params)
-    result = RepoTask.task_state(task_id)
+    %{"task_id" => task_id, "download" => download} = Map.merge(%{"task_id" => nil, "download" => false}, conn.params)
+    download = if is_bitstring(download), do: String.to_atom(download), else: download
+    result = RepoTask.task_state(task_id, download)
     json conn, result
   end
 

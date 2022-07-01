@@ -17,6 +17,17 @@ use Mix.Config
 #     You can generate one by calling: mix phx.gen.secret
 #     """
 
+
+
+config :read_pg, ReadPg.Repo,
+  username: "postgres",
+  password: "postgres",
+  database: "drg_prod",
+  hostname: "localhost",
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 36
+
+
 config :read_pg, ReadPgWeb.Endpoint,
   http: [
     port: String.to_integer(System.get_env("PORT") || "3009"),
